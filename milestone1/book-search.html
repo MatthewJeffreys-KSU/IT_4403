@@ -67,9 +67,11 @@
                 $("<li>").text("Authors: " + doc.author_name).appendTo("#result-list");
                 $("<li>").text("First publication year: " + doc.first_publish_year).appendTo("#result-list");
                 $("<li>").text("Edition: " + doc.edition_count).appendTo("#result-list");
-                $("<li>").append($("<img>")
+                if ('cover_i' in doc) {
+                    $("<li>").append($("<img>")
                     .attr({"src": "https://covers.openlibrary.org/b/id/" + doc.cover_i + ".jpg", "style": "max-width: 200px;"}))
                     .appendTo("#result-list");
+                }
                 $("<li>").append($("<a>").attr("href", "https://openlibrary.org" + doc.key)
                     .text("Books's page on Open Library")).appendTo("#result-list");
                 $("<br>").appendTo("#result-list");
