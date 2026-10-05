@@ -50,8 +50,15 @@
     <div>
       <h1 class="page-banner">Book Data</h1>
       <div class="page-contents">
-        
+        <ul id="result-list"></ul>
       </div>
     </div>
   </body>
+  <script>
+    $document.ready(function(){
+        $.getJSON("openlibrary-book.json", function(data){
+            $("<li>").text("Title: " + data.title).appendTo("#result-list")
+        });
+    });
+  </script>
 </html>
