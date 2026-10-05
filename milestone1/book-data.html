@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Book Data</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
       body {
         display: grid;
@@ -33,19 +34,23 @@
       .page-contents {
         margin-left: 10px;
       }
+
+      #result-list {
+        list-style-type: none;
+      }
     </style>
   </head>
   <body>
     <div class="navbox">
       <h2>Navigation</h2>
-      <p><a href="index.html">Home</a></p>
+      <p><a href="/index.html">Home</a></p>
       <h3>Lab Work</h3>
       <p><a>Lab 1 (WIP)</a></p>
       <p><a>Lab 2 (WIP)</a></p>
       <h3>Individual Project Milestones</h3>
       <h4>Milestone 1</h4>
-      <p><a href="milestone1/book-data.html">Single-Book Data</a></p>
-      <p><a href="milestone1/book-search.html">Book Search</a></p>
+      <p><a href="/milestone1/book-data.html">Single-Book Data</a></p>
+      <p><a href="/milestone1/book-search.html">Book Search</a></p>
     </div>
     <div>
       <h1 class="page-banner">Book Data</h1>
@@ -55,9 +60,26 @@
     </div>
   </body>
   <script>
-    $document.ready(function(){
-        $.getJSON("openlibrary-book.json", function(data){
-            $("<li>").text("Title: " + data.title).appendTo("#result-list")
+    $(document).ready(function(){
+        $.getJSON("../openlibrary-book.json", function(data){
+            $("<li>").text("Title: " + data.title).appendTo("#result-list");
+            $("<li>").text("Publisher: " + data.publishers).appendTo("#result-list");
+            $("<li>").text("Publication date: " + data.publish_date).appendTo("#result-list");
+            $("<li>").text("Page count: " + data.number_of_pages).appendTo("#result-list");
+            $("<li>").text("ISBN-10: " + data.isbn_10).appendTo("#result-list");
+            $("<li>").text("ISBN-13: " + data.isbn_13).appendTo("#result-list");
+            $("<li>").append($("<img>")
+                .attr({"src": "https://covers.openlibrary.org/b/id/" + data.covers[0] + ".jpg", "width": 200}))
+                .appendTo("#result-list");
+            $("<li>").append($("<a>").attr("href", "https://openlibrary.org" + data.authors[0].key)
+                .text("Author's page on Open Library")).appendTo("#result-list");
+            $("<li>").text("First sentence: " + data.first_sentence.value).appendTo("#result-list");
+            $("<li>").append($("<a>").attr("href", "https://openlibrary.org" + data.key)
+                .text("Books's page on Open Library")).appendTo("#result-list");
+            $("<li>").text("Other contributors:").appendTo("#result-list");
+            $.each(data.contributions, function(index, contribution) {
+                $("<li>").text("-" + contribution).appendTo("#result-list");
+            });
         });
     });
   </script>
