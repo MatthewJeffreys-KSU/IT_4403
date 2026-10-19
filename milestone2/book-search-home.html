@@ -3,6 +3,7 @@
   <head>
     <title>Book Search - Home</title>
     <link rel="stylesheet" href="m2styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   </head>
   <body>
     <div class="navbox">
@@ -14,17 +15,34 @@
     <div>
       <h1 class="page-banner">Book Search</h1>
       <div class="page-contents">
-        <h3>Matthew Jeffreys<br>Kennesaw State University</h3>
-        <p>
-          This website is made to host my work on exercises, 
-          labs and projects for IT 4403 Advanced Web and Mobile Applications.
-        </p>
-        <p>
-          This is a student website for submitting course work 
-          and should not be used as a source for information or research purposes.
-        </p>
-        <a href="https://ccse.kennesaw.edu/it/">KSU's CCSE Department of IT webpage</a>
+        <br>
+        <input type="text" id="search-text">
+        <button type="button" id="search-button">Search</button>
+        <br>
       </div>
     </div>
   </body>
+  <script>
+    $(document).ready(function(){
+      $("#search-button").on("click", function(){
+        let searchRequest = "https://openlibrary.org/search.json?q=" + $("#search-text").val() + "&limit=60";
+        fetch(searchRequest)
+          .then(response => response.json())
+          .then(data => {
+            $.each(data.docs, function(index, doc){
+              if ('cover_i' in doc) {
+                    $("<img>")
+                    .attr({"src": "https://covers.openlibrary.org/b/id/" + doc.cover_i + "-S.jpg", "alt": "Cover of " + doc.title})
+                    .appendTo(".page-contents");
+                }
+              $("<span>").text(doc.title).appendTo(".page-contents");
+              $("<hr>").appendTo(".page-contents");
+            })
+          })
+          .catch(error => {
+            console.log("Error:", error);
+          });
+      })
+    });
+  </script>
 </html>
