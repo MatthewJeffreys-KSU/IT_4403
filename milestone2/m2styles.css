@@ -1,0 +1,30 @@
+body {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    font-family: sans-serif;
+    margin: auto;
+}
+
+.navbox {
+    float: left;
+    text-align: center;
+    background-color: lightgray;
+}
+
+.navbox h2 {
+    background-color: black;
+    color: white;
+    margin: 0%;
+    padding: 1rem 0%;
+}
+
+.page-banner {
+    background-color: darkblue;
+    color: white;
+    margin: 0%;
+    padding: 1rem;
+}
+
+.page-contents {
+    margin-left: 10px;
+}
