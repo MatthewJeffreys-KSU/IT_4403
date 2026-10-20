@@ -18,6 +18,12 @@
         <br>
         <input type="text" id="search-text">
         <button type="button" id="search-button">Search</button>
+        <label for="result-limit">Results per page:</label>
+        <select id="result-limit">
+          <option value="10" selected>10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+        </select>
         <br>
       </div>
     </div>
@@ -25,7 +31,8 @@
   <script>
     $(document).ready(function(){
       $("#search-button").on("click", function(){
-        let searchRequest = "https://openlibrary.org/search.json?q=" + $("#search-text").val() + "&limit=60";
+        let searchRequest = "https://openlibrary.org/search.json?q=" + $("#search-text").val() 
+          + "&limit=" + $("#result-limit").val();
         fetch(searchRequest)
           .then(response => response.json())
           .then(data => {
