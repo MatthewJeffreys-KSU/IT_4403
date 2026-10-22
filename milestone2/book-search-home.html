@@ -42,7 +42,7 @@
                     .attr({"src": "https://covers.openlibrary.org/b/id/" + doc.cover_i + "-S.jpg", "alt": "Cover of " + doc.title})
                     .appendTo(".page-contents");
                 }
-              $("<span>").text(doc.title).appendTo(".page-contents");
+              $("<a>").text(doc.title).attr({"href": "book-details.html?workid=" + doc.key}).appendTo(".page-contents");
               $("<hr>").appendTo(".page-contents");
             })
           })

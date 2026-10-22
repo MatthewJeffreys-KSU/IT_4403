@@ -28,3 +28,7 @@ body {
 .page-contents {
     margin-left: 10px;
 }
+
+#result-list {
+    list-style-type: none;
+}

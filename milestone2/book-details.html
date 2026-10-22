@@ -15,8 +15,32 @@
     <div>
       <h1 class="page-banner">Book Details</h1>
       <div class="page-contents">
-        <h3>WIP</h3>
+        <ul id="result-list"></ul>
       </div>
     </div>
   </body>
+  <script>
+    $(document).ready(function(){
+      const params = new URLSearchParams(window.location.search);
+      const workID = params.get("workid");
+      let request = "https://openlibrary.org" + workID + ".json";
+      fetch(request)
+        .then(response => response.json())
+        .then(data => {
+          $("<li>").text(data.title).appendTo("#result-list");
+          $("<li>").text("Work ID: " + workID.substring(7)).appendTo("#result-list");
+          $("<li>").text("Description: " + data.description.value).appendTo("#result-list");
+          if ('covers' in data) {
+            $("<li>").append($("<img>")
+            .attr({"src": "https://covers.openlibrary.org/b/id/" + data.covers[0] + "-M.jpg"}))
+            .appendTo("#result-list");
+          }
+          $("<li>").append($("<a>").attr("href", "https://openlibrary.org" + data.key)
+            .text("Books's page on Open Library")).appendTo("#result-list");
+        })
+        .catch(error => {
+          console.log("Error:", error);
+        });
+    });
+  </script>
 </html>
