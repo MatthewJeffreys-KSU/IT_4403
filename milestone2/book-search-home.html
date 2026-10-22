@@ -30,7 +30,7 @@
   </body>
   <script>
     $(document).ready(function(){
-      $("#search-button").on("click", function(){
+      function populate(){
         let searchRequest = "https://openlibrary.org/search.json?q=" + $("#search-text").val() 
           + "&limit=" + $("#result-limit").val();
         fetch(searchRequest)
@@ -49,7 +49,8 @@
           .catch(error => {
             console.log("Error:", error);
           });
-      })
+      }
+      $("#search-button").on("click", populate);
     });
   </script>
 </html>

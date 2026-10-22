@@ -29,8 +29,22 @@
         .then(data => {
           $("<li>").text(data.title).appendTo("#result-list");
           $("<li>").text("Work ID: " + workID.substring(7)).appendTo("#result-list");
-          $("<li>").text("Description: " + data.description.value).appendTo("#result-list");
-          if ('covers' in data) {
+          if('description' in data && 'value' in data.description){
+            $("<li>").text("Description: " + data.description.value).appendTo("#result-list");
+          }
+          else if('description' in data){
+            $("<li>").text("Description: " + data.description).appendTo("#result-list");
+          }
+          if('subjects' in data){
+            let subjects = "Subjects: ";
+            for(i = 0; i < 10; i++){
+              if(i < data.subjects.length){
+                subjects += data.subjects[i] + " - ";
+              }
+            }
+            $("<li>").text(subjects).appendTo("#result-list");
+          }
+          if('covers' in data){
             $("<li>").append($("<img>")
             .attr({"src": "https://covers.openlibrary.org/b/id/" + data.covers[0] + "-M.jpg"}))
             .appendTo("#result-list");

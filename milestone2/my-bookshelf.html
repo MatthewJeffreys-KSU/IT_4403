@@ -15,8 +15,29 @@
     <div>
       <h1 class="page-banner">My Bookshelf</h1>
       <div class="page-contents">
-        <h3>WIP</h3>
       </div>
     </div>
   </body>
+  <script>
+    $(document).ready(function(){
+      let books = ["OL17422847W", "OL102749W", "OL83589W", "OL85892W"];
+      $.each(books, function(index, book){
+        let request = "https://openlibrary.org/works/" + book + ".json";
+        fetch(request)
+          .then(response => response.json())
+          .then(data => {
+            if ('covers' in data) {
+              $("<img>")
+              .attr({"src": "https://covers.openlibrary.org/b/id/" + data.covers[0] + "-S.jpg", "alt": "Cover of " + data.title})
+              .appendTo(".page-contents");
+            }
+            $("<a>").text(data.title).attr({"href": "book-details.html?workid=" + data.key}).appendTo(".page-contents");
+            $("<hr>").appendTo(".page-contents");
+          })
+          .catch(error => {
+            console.log("Error:", error);
+          });
+      });
+    });
+  </script>
 </html>
