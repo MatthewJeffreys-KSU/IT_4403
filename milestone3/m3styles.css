@@ -1,6 +1,6 @@
 body {
-    display: grid;
-    grid-template-columns: 60% 40%;
+    /* display: grid; */
+    /* grid-template-columns: 60% 40%; */
     font-family: sans-serif;
     margin: auto;
 }
@@ -28,9 +28,29 @@ body {
 
 .page-contents {
     margin-left: 10px;
-    grid-column: 1 / span 2;
+    /* grid-column: 1 / span 2; */
+    display: grid;
+    grid-template-columns: 60% 40%;
 }
 
 #details-list {
     list-style-type: none;
+}
+
+.book-link{
+    color: #0066cc;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.book-link:active{
+    color: #8213bd;
+}
+
+.search-pane{
+    grid-column: 1 1;
+}
+
+.details-pane{
+    grid-column: 2;
 }
