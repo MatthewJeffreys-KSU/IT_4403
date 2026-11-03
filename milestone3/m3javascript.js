@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+    let currentPage = 1;
 
     function search(){
         let searchRequest = "https://openlibrary.org/search.json?q=" + $("#search-text").val() + "&limit=50";
@@ -17,6 +17,37 @@ $(document).ready(function(){
             $("<a>").text(doc.title).attr({"href": "book-details.html?workid=" + doc.key}).appendTo("#search-results");
             $("<hr>").appendTo("#search-results");
         })
+    }
+
+    function displayBookDetails(workID){
+        let request = "https://openlibrary.org" + workID + ".json";
+
+        $.getJSON(request, function(data){
+            $("<li>").text(data.title).appendTo("#details-list");
+            $("<li>").text("Work ID: " + workID.substring(7)).appendTo("#details-list");
+            if('description' in data && 'value' in data.description){
+                $("<li>").text("Description: " + data.description.value).appendTo("#details-list");
+            }
+            else if('description' in data){
+                $("<li>").text("Description: " + data.description).appendTo("#details-list");
+            }
+            if('subjects' in data){
+                let subjects = "Subjects: ";
+                for(i = 0; i < 10; i++){
+                    if(i < data.subjects.length){
+                        subjects += data.subjects[i] + " - ";
+                    }
+                }
+                $("<li>").text(subjects).appendTo("#details-list");
+            }
+            if('covers' in data){
+                $("<li>").append($("<img>")
+                .attr({"src": "https://covers.openlibrary.org/b/id/" + data.covers[0] + "-M.jpg"}))
+                .appendTo("#details-list");
+            }
+            $("<li>").append($("<a>").attr("href", "https://openlibrary.org" + data.key)
+                .text("Books's page on Open Library")).appendTo("#details-list");
+        });
     }
     
     $("#search-button").click(search);

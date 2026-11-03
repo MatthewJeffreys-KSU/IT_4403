@@ -31,6 +31,6 @@ body {
     grid-column: 1 / span 2;
 }
 
-#result-list {
+#details-list {
     list-style-type: none;
 }
