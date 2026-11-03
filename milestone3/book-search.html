@@ -1,32 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Book Search - Home</title>
-    <link rel="stylesheet" href="m2styles.css">
+    <title>Book Search</title>
+    <link rel="stylesheet" href="m3styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="m3javascript.js"></script>
   </head>
   <body>
-    <div class="navbox">
-      <h2>Navigation</h2>
-      <p><a href="../index.html">IT 4403 Home</a></p>
-      <p><a href="book-search-home.html">Home</a></p>
-      <p><a href="my-bookshelf.html">My Bookshelf</a></p>
-    </div>
-    <div>
-      <h1 class="page-banner">Book Search</h1>
-      <div class="page-contents">
-        <br>
-        <input type="text" id="search-text">
-        <button type="button" id="search-button">Search</button>
-        <label for="result-limit">Results per page:</label>
-        <select id="result-limit">
-          <option value="10" selected>10</option>
-          <option value="20">20</option>
-          <option value="30">30</option>
-        </select>
-        <br>
-      </div>
+    <h1 class="page-banner">Book Search</h1>
+    <div class="page-contents">
+        <div class="search-pane">
+            <br>
+            <input type="text" id="search-text">
+            <button type="button" id="search-button">Search</button>
+            <br>
+            <div id="search-results"></div>
+        </div>
+        <div id="details-pane"></div>
     </div>
   </body>
 </html>

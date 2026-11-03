@@ -1,6 +1,6 @@
 body {
     display: grid;
-    grid-template-columns: 20% 80%;
+    grid-template-columns: 60% 40%;
     font-family: sans-serif;
     margin: auto;
 }
@@ -23,10 +23,12 @@ body {
     color: white;
     margin: 0%;
     padding: 1rem;
+    grid-column: 1 / span 2;
 }
 
 .page-contents {
     margin-left: 10px;
+    grid-column: 1 / span 2;
 }
 
 #result-list {
