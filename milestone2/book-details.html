@@ -29,11 +29,11 @@
         .then(data => {
           $("<li>").text(data.title).appendTo("#result-list");
           $("<li>").text("Work ID: " + workID.substring(7)).appendTo("#result-list");
-          if('description' in data && 'value' in data.description){
-            $("<li>").text("Description: " + data.description.value).appendTo("#result-list");
-          }
-          else if('description' in data){
+          if(typeof(data.description) == "string"){
             $("<li>").text("Description: " + data.description).appendTo("#result-list");
+          }
+          else if(typeof(data.description) == "object"){
+            $("<li>").text("Description: " + data.description.value).appendTo("#result-list");
           }
           if('subjects' in data){
             let subjects = "Subjects: ";

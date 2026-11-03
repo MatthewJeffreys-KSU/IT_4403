@@ -8,6 +8,7 @@ $(document).ready(function(){
     }
 
     function displaySearchResults(data){
+        $("#search-results").replaceChildren();
         $.each(data.docs, function(index, doc){
             if ('cover_i' in doc) {
                 $("<img>")
@@ -20,16 +21,17 @@ $(document).ready(function(){
     }
 
     function displayBookDetails(workID){
+        $("#details-list").replaceChildren();
         let request = "https://openlibrary.org" + workID + ".json";
 
         $.getJSON(request, function(data){
             $("<li>").text(data.title).appendTo("#details-list");
             $("<li>").text("Work ID: " + workID.substring(7)).appendTo("#details-list");
-            if('description' in data && 'value' in data.description){
-                $("<li>").text("Description: " + data.description.value).appendTo("#details-list");
-            }
-            else if('description' in data){
+            if(typeof(data.description) == "string"){
                 $("<li>").text("Description: " + data.description).appendTo("#details-list");
+            }
+            else if(typeof(data.description) == "object"){
+                $("<li>").text("Description: " + data.description.value).appendTo("#details-list");
             }
             if('subjects' in data){
                 let subjects = "Subjects: ";
