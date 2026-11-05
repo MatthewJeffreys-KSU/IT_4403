@@ -1,15 +1,36 @@
 $(document).ready(function(){
     let currentPage = 1;
+    let searchResults;
 
     function search(){
-        let searchRequest = "https://openlibrary.org/search.json?q=" + $("#search-text").val() + "&limit=10";
+        let searchRequest = "https://openlibrary.org/search.json?q=" + $("#search-text").val() + "&limit=50";
 
-        $.getJSON(searchRequest, displaySearchResults);
+        $.getJSON(searchRequest, updateSearchResults);
+    }
+
+    function updateSearchResults(results){
+        searchResults = results;
+        currentPage = 1;
+        displaySearchResults(searchResults);
     }
 
     function displaySearchResults(results){
         $("#search-results").empty();
-        $.each(results.docs, function(index, doc){
+
+        for(i = (currentPage - 1) * 10; i < currentPage * 10; i++){
+            if(i < results.docs.length){
+                $("<p>").text(results.docs[i].title).data("bookID", results.docs[i].key)
+                    .attr("class", "book-link").appendTo("#search-results");
+                if ('cover_i' in results.docs[i]) {
+                    $("<img>")
+                    .attr({"src": "https://covers.openlibrary.org/b/id/" + results.docs[i].cover_i + "-S.jpg", "alt": "Cover of " + results.docs[i].title})
+                    .appendTo("#search-results");
+                }
+                $("<hr>").appendTo("#search-results");
+            }
+        }
+
+        /* $.each(results.docs, function(index, doc){
             $("<p>").text(doc.title).data("bookID", doc.key).attr("class", "book-link").appendTo("#search-results");
             if ('cover_i' in doc) {
                 $("<img>")
@@ -17,7 +38,7 @@ $(document).ready(function(){
                 .appendTo("#search-results");
             }
             $("<hr>").appendTo("#search-results");
-        })
+        }) */
     }
 
     function displayBookDetails(workID){
