@@ -2,6 +2,8 @@ $(document).ready(function(){
     let currentPage = 1;
     let searchResults;
 
+    $(".page-selection").hide();
+
     function search(){
         let searchRequest = "https://openlibrary.org/search.json?q=" + $("#search-text").val() + "&limit=50";
 
@@ -11,7 +13,15 @@ $(document).ready(function(){
     function updateSearchResults(results){
         searchResults = results;
         currentPage = 1;
+
         displaySearchResults(searchResults);
+
+        $("#page-select").empty();
+        $("#page-select").append("<option value='1' selected>1</option>");
+        for(i = 2; i * 10 - 9 <= results.docs.length; i++){
+            $("#page-select").append("<option value=" + i + ">" + i + "</option>");
+        }
+        $(".page-selection").show();
     }
 
     function displaySearchResults(results){
@@ -76,5 +86,9 @@ $(document).ready(function(){
     $("#search-button").click(search);
     $("#search-results").on("click", ".book-link", function(){
         displayBookDetails( $(this).data("bookID") );
+    });
+    $("#page-select").on("change", function(){
+        currentPage = $("#page-select").val();
+        displaySearchResults(searchResults);
     });
 });
