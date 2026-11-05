@@ -1,0 +1,7 @@
+At the time I initially uploaded my Milestone 3 submission to D2L, I had been unable to get the deployment to Microsoft Azure working.
+Any time I tried to create the web app resource, Azure responded with error messages.
+I couldn't exactly work out what the precise issue was or how to solve it before the submission deadline so I had to omit the Azure deployment.
+I was later able to come back and, after digging through my various resources and policies, was able to find the solution and get it working.
+
+Anyway, here's the URL for the Milestone 3 page on the Azure deployment:
+https://it4403milestone3-bpcmbxggf8h5dfgw.canadacentral-01.azurewebsites.net/milestone3/book-search.html
