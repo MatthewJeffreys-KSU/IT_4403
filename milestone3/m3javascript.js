@@ -7,7 +7,12 @@ $(document).ready(function(){
     function search(){
         let searchRequest = "https://openlibrary.org/search.json?q=" + $("#search-text").val() + "&limit=50";
 
-        $.getJSON(searchRequest, updateSearchResults);
+        $.getJSON(searchRequest, updateSearchResults)
+        .fail(function(jqXHR, textStatus, errorThrown){
+            $("#search-results").empty();
+            $("#search-results").append("<p class='error-message'>There was an error retrieving the results: "
+                + textStatus + "</p>");
+        });
     }
 
     function updateSearchResults(results){
@@ -39,16 +44,6 @@ $(document).ready(function(){
                 $("<hr>").appendTo("#search-results");
             }
         }
-
-        /* $.each(results.docs, function(index, doc){
-            $("<p>").text(doc.title).data("bookID", doc.key).attr("class", "book-link").appendTo("#search-results");
-            if ('cover_i' in doc) {
-                $("<img>")
-                .attr({"src": "https://covers.openlibrary.org/b/id/" + doc.cover_i + "-S.jpg", "alt": "Cover of " + doc.title})
-                .appendTo("#search-results");
-            }
-            $("<hr>").appendTo("#search-results");
-        }) */
     }
 
     function displayBookDetails(workID){

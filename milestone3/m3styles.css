@@ -38,13 +38,13 @@ body {
 }
 
 .book-link{
-    color: #0066cc;
+    color: blue;
     text-decoration: underline;
     cursor: pointer;
 }
 
 .book-link:active{
-    color: #8213bd;
+    color: blueviolet;
 }
 
 .search-pane{
@@ -53,4 +53,8 @@ body {
 
 .details-pane{
     grid-column: 2;
+}
+
+.error-message{
+    color: red;
 }
