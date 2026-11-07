@@ -37,13 +37,13 @@ body {
     list-style-type: none;
 }
 
-.book-link{
+.pseudolink{
     color: blue;
     text-decoration: underline;
     cursor: pointer;
 }
 
-.book-link:active{
+.pseudolink:active{
     color: blueviolet;
 }
 

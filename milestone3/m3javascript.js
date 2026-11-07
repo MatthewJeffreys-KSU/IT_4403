@@ -32,10 +32,14 @@ $(document).ready(function(){
     function displaySearchResults(results){
         $("#search-results").empty();
 
+        if(results.docs.length == 0){
+            $("#search-results").append("<p>No results found.</p>");
+        }
+
         for(i = (currentPage - 1) * 10; i < currentPage * 10; i++){
             if(i < results.docs.length){
                 $("<p>").text(results.docs[i].title).data("bookID", results.docs[i].key)
-                    .attr("class", "book-link").appendTo("#search-results");
+                    .attr("class", "pseudolink").appendTo("#search-results");
                 if ('cover_i' in results.docs[i]) {
                     $("<img>")
                     .attr({"src": "https://covers.openlibrary.org/b/id/" + results.docs[i].cover_i + "-S.jpg", "alt": "Cover of " + results.docs[i].title})
@@ -79,7 +83,7 @@ $(document).ready(function(){
     }
     
     $("#search-button").click(search);
-    $("#search-results").on("click", ".book-link", function(){
+    $("#search-results").on("click", ".pseudolink", function(){
         displayBookDetails( $(this).data("bookID") );
     });
     $("#page-select").on("change", function(){
