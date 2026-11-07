@@ -11,7 +11,7 @@ $(document).ready(function(){
         .fail(function(jqXHR, textStatus, errorThrown){
             $("#search-results").empty();
             $("#search-results").append("<p class='error-message'>There was an error retrieving the results: "
-                + textStatus + "</p>");
+                + textStatus + errorThrown + "</p>");
         });
     }
 
@@ -40,7 +40,7 @@ $(document).ready(function(){
             if(i < results.docs.length){
                 $("<p>").text(results.docs[i].title).data("bookID", results.docs[i].key)
                     .attr("class", "pseudolink").appendTo("#search-results");
-                if ('cover_i' in results.docs[i]) {
+                if("cover_i" in results.docs[i]){
                     $("<img>")
                     .attr({"src": "https://covers.openlibrary.org/b/id/" + results.docs[i].cover_i + "-S.jpg", "alt": "Cover of " + results.docs[i].title})
                     .appendTo("#search-results");
@@ -72,13 +72,38 @@ $(document).ready(function(){
                 }
                 $("<li>").text(subjects).appendTo("#details-list");
             }
-            if('covers' in book){
+            if("covers" in book){
                 $("<li>").append($("<img>")
                 .attr({"src": "https://covers.openlibrary.org/b/id/" + book.covers[0] + "-M.jpg"}))
                 .appendTo("#details-list");
             }
             $("<li>").append($("<a>").attr("href", "https://openlibrary.org" + book.key)
                 .text("Books's page on Open Library")).appendTo("#details-list");
+        });
+    }
+
+    function displayCollection(subject){
+        $("#search-results").empty();
+        $(".page-selection").hide();
+
+        let request = "https://openlibrary.org/subjects/" + subject + ".json?limit=10";
+
+        $.getJSON(request, function(results){
+            $.each(results.works, function(index, work){
+                $("<p>").text(work.title).data("bookID", work.key)
+                    .attr("class", "pseudolink").appendTo("#search-results");
+                if("cover_id" in work) {
+                    $("<img>")
+                    .attr({"src": "https://covers.openlibrary.org/b/id/" + work.cover_id + "-S.jpg", "alt": "Cover of " + work.title})
+                    .appendTo("#search-results");
+                }
+                $("<hr>").appendTo("#search-results");
+            });
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
+            $("#search-results").empty();
+            $("#search-results").append("<p class='error-message'>There was an error retrieving the results: "
+                + textStatus + "</p>");
         });
     }
     
@@ -89,5 +114,8 @@ $(document).ready(function(){
     $("#page-select").on("change", function(){
         currentPage = $("#page-select").val();
         displaySearchResults(searchResults);
+    });
+    $("#collections").on("click", ".pseudolink", function(){
+        displayCollection( $(this).data("subject") );
     });
 });

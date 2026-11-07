@@ -14,9 +14,17 @@
             <input type="text" id="search-text">
             <button type="button" id="search-button">Search</button>
             <br>
-            <label for="page-select" class="page-selection">Current page: </label>
-            <select id="page-select" class="page-selection"></select>
-            <br>
+            <div id="collections">
+              Search collections by subject: 
+              <span class="pseudolink" data-subject="history">History</span>&emsp;
+              <span class="pseudolink" data-subject="science fiction">Science Fiction</span>
+            </div>
+            <div class="page-selection">
+              <br>
+              <label for="page-select">Current page: </label>
+              <select id="page-select"></select>
+              <br>
+            </div>
             <div id="search-results"></div>
         </div>
         <div class="details-pane">
