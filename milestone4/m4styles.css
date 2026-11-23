@@ -1,0 +1,60 @@
+body {
+    /* display: grid; */
+    /* grid-template-columns: 60% 40%; */
+    font-family: sans-serif;
+    margin: auto;
+}
+
+.navbox {
+    float: left;
+    text-align: center;
+    background-color: lightgray;
+}
+
+.navbox h2 {
+    background-color: black;
+    color: white;
+    margin: 0%;
+    padding: 1rem 0%;
+}
+
+.page-banner {
+    background-color: darkblue;
+    color: white;
+    margin: 0%;
+    padding: 1rem;
+    grid-column: 1 / span 2;
+}
+
+.page-contents {
+    margin-left: 10px;
+    /* grid-column: 1 / span 2; */
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
+
+#details-list {
+    list-style-type: none;
+}
+
+.pseudolink{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.pseudolink:active{
+    color: blueviolet;
+}
+
+.search-pane{
+    grid-column: 1 1;
+}
+
+.details-pane{
+    grid-column: 2;
+}
+
+.error-message{
+    color: red;
+}
