@@ -2,6 +2,12 @@ $(document).ready(function(){
     let currentPage = 1;
     let searchResults;
 
+    const resultTemplate = '' + 
+        '<div class="result-card">' +
+            '{{#cover_i}}<img src="https://covers.openlibrary.org/b/id/{{cover_i}}-S.jpg" alt="Cover of {{title}}">{{/cover_i}}' +
+            '<span class="pseudolink" data-bookID="{{key}}">{{title}}</span>' +
+        '</div>';
+
     $(".page-selection").hide();
 
     function search(){
@@ -38,14 +44,16 @@ $(document).ready(function(){
 
         for(i = (currentPage - 1) * 10; i < currentPage * 10; i++){
             if(i < results.docs.length){
-                $("<p>").text(results.docs[i].title).data("bookID", results.docs[i].key)
+                /* $("<p>").text(results.docs[i].title).data("bookID", results.docs[i].key)
                     .attr("class", "pseudolink").appendTo("#search-results");
                 if("cover_i" in results.docs[i]){
                     $("<img>")
                     .attr({"src": "https://covers.openlibrary.org/b/id/" + results.docs[i].cover_i + "-S.jpg", "alt": "Cover of " + results.docs[i].title})
                     .appendTo("#search-results");
                 }
-                $("<hr>").appendTo("#search-results");
+                $("<hr>").appendTo("#search-results"); */
+
+                $("#search-results").append(Mustache.render(resultTemplate, results.docs[i]));
             }
         }
     }

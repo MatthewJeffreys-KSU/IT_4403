@@ -58,3 +58,24 @@ body {
 .error-message{
     color: red;
 }
+
+.result-card{
+    border-color: blue;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+    width: 95%;
+    margin: 5px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.result-card img{
+    margin-right: 5px;
+}
+
+#search-results{
+    display: flex;
+    flex-wrap: wrap;
+}
