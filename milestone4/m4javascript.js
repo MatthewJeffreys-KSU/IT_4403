@@ -5,7 +5,7 @@ $(document).ready(function(){
     const resultTemplate = '' + 
         '<div class="result-card">' +
             '{{#cover_i}}<img src="https://covers.openlibrary.org/b/id/{{cover_i}}-S.jpg" alt="Cover of {{title}}">{{/cover_i}}' +
-            '<span class="pseudolink" data-bookID="{{key}}">{{title}}</span>' +
+            '<span class="pseudolink" data-bookid="{{key}}">{{title}}</span>' +
         '</div>';
 
     const detailsTemplate = '' +
@@ -104,7 +104,7 @@ $(document).ready(function(){
 
         $.getJSON(request, function(results){
             $.each(results.works, function(index, work){
-                $("<p>").text(work.title).data("bookID", work.key)
+                $("<p>").text(work.title).data("bookid", work.key)
                     .attr("class", "pseudolink").appendTo("#search-results");
                 if("cover_id" in work) {
                     $("<img>")
@@ -123,7 +123,8 @@ $(document).ready(function(){
     
     $("#search-button").click(search);
     $("#search-results").on("click", ".pseudolink", function(){
-        displayBookDetails( $(this).data("bookID") );
+        console.log( $(this).data("bookid") );
+        displayBookDetails( $(this).data("bookid") );
     });
     $("#page-select").on("change", function(){
         currentPage = $("#page-select").val();
