@@ -12,12 +12,11 @@ $(document).ready(function(){
         '<div class="details-card">' +
         'Title: {{title}}<br>' +
         'Work ID: {{ID}}<br>' +
-        'Written by: {{#authors}}{{.}}, {{/authors}}<br>' +
+        'Written by: {{formattedAuthors}}{{^formattedAuthors}}Not listed{{/formattedAuthors}}<br>' +
         '{{#cover}}<img src="https://covers.openlibrary.org/b/id/{{cover}}-M.jpg" alt="Cover of {{title}}"><br>{{/cover}}' +
         '{{#description}}Description: {{description}}<br>{{/description}}' +
         '{{^description}}No description available<br>{{/description}}' +
-        'Subjects: {{#subjects}}{{.}}, {{/subjects}}' +
-        '{{^subjects}}none listed{{/subjects}}' +
+        'Subjects: {{formattedSubjects}}' +
         '</div>';
 
     $(".page-selection").hide();
@@ -68,14 +67,20 @@ $(document).ready(function(){
         $.getJSON(request, function(book){
             let title = book.title;
             let OLID = book.key.substring(7);
+
             let names;
             $.each(book.authors, function(index, author){
                 $.getJSON("https://openlibrary.org" + author.key + ".json", function(result){
                     names += result.name;
                 })
             })
-            let cover = book.covers[0];
-            let description = book.description;
+
+            let cover;
+            if("covers" in book){cover = book.covers[0];}
+
+            let description;
+            if(typeof(book.description) == "string"){description = book.description;}
+
             let subjects;
             for(i = 0; i < 10; i++){
                 if(i < book.subjects.length){
@@ -87,10 +92,32 @@ $(document).ready(function(){
                 "title": title,
                 "ID": OLID,
                 "authors": names,
+                "formattedAuthors": function(){
+                    if(typeof(this.authors) == "string"){
+                        return this.authors;
+                    }
+                    else if(typeof(this.authors) == "object"){
+                        return this.authors.join(", ");
+                    }
+                    else{
+                        return "Error";
+                    };
+                },
                 "cover": cover,
                 "description": description,
-                "subjects": subjects
-            }
+                "subjects": subjects,
+                "formattedSubjects": function(){
+                    if(typeof(this.subjects) == "string"){
+                        return this.subjects;
+                    }
+                    else if(typeof(this.subjects) == "object"){
+                        return this.subjects.join(", ");
+                    }
+                    else{
+                        return "Error";
+                    };
+                }
+            };
 
             $("#details-pane").append(Mustache.render(detailsTemplate, data));
         });
@@ -123,7 +150,6 @@ $(document).ready(function(){
     
     $("#search-button").click(search);
     $("#search-results").on("click", ".pseudolink", function(){
-        console.log( $(this).data("bookid") );
         displayBookDetails( $(this).data("bookid") );
     });
     $("#page-select").on("change", function(){
