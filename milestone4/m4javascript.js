@@ -12,7 +12,7 @@ $(document).ready(function(){
         '<div class="details-card">' +
         'Title: {{title}}<br>' +
         'Work ID: {{ID}}<br>' +
-        'Written by: {{formattedAuthors}}{{^formattedAuthors}}Not listed{{/formattedAuthors}}<br>' +
+        'Written by: {{#formattedAuthors}}{{formattedAuthors}}{{/formattedAuthors}}{{^formattedAuthors}}Not listed{{/formattedAuthors}}<br>' +
         '{{#cover}}<img src="https://covers.openlibrary.org/b/id/{{cover}}-M.jpg" alt="Cover of {{title}}"><br>{{/cover}}' +
         '{{#description}}Description: {{description}}<br>{{/description}}' +
         '{{^description}}No description available<br>{{/description}}' +
@@ -61,17 +61,17 @@ $(document).ready(function(){
     }
 
     function displayBookDetails(workID){
-        $("#details-list").empty();
+        $("#details-pane").empty();
         let request = "https://openlibrary.org" + workID + ".json";
 
         $.getJSON(request, function(book){
             let title = book.title;
             let OLID = book.key.substring(7);
 
-            let names;
-            $.each(book.authors, function(index, author){
-                $.getJSON("https://openlibrary.org" + author.key + ".json", function(result){
-                    names += result.name;
+            let names = [];
+            $.each(book.authors, function(index, person){
+                $.getJSON("https://openlibrary.org" + person.author.key + ".json", function(result){
+                    names.push(result.name);
                 })
             })
 
@@ -80,11 +80,12 @@ $(document).ready(function(){
 
             let description;
             if(typeof(book.description) == "string"){description = book.description;}
+            else if(typeof(book.description) == "object"){description = book.description.value;}
 
-            let subjects;
+            let subjects = [];
             for(i = 0; i < 10; i++){
                 if(i < book.subjects.length){
-                    subjects += book.subjects[i];
+                    subjects.push(book.subjects[i]);
                 }
             }
 
@@ -93,10 +94,7 @@ $(document).ready(function(){
                 "ID": OLID,
                 "authors": names,
                 "formattedAuthors": function(){
-                    if(typeof(this.authors) == "string"){
-                        return this.authors;
-                    }
-                    else if(typeof(this.authors) == "object"){
+                    if(typeof(this.authors) == "object"){
                         return this.authors.join(", ");
                     }
                     else{
